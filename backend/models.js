@@ -1,14 +1,14 @@
 import mongoose from 'mongoose';
-const { Schema, model } = mongoose;
+const { Schema, model, models } = mongoose;
 
-export const Autor = model('Autor', new Schema({
+export const Autor = models.Autor || model('Autor', new Schema({
   nombre: { type: String, required: true },
   nacionalidad: String,
   anioNacimiento: Number,
   biografia: String,
 }, { timestamps: true }));
 
-export const Libro = model('Libro', new Schema({
+export const Libro = models.Libro || model('Libro', new Schema({
   titulo: { type: String, required: true },
   isbn: { type: String, index: true },
   autor: { type: Schema.Types.ObjectId, ref: 'Autor', required: true },
@@ -20,7 +20,7 @@ export const Libro = model('Libro', new Schema({
   disponibles: { type: Number, default: 1 },
 }, { timestamps: true }));
 
-export const Usuario = model('Usuario', new Schema({
+export const Usuario = models.Usuario || model('Usuario', new Schema({
   nombre: { type: String, required: true },
   correo: { type: String, unique: true },
   tipo: { type: String, enum: ['estudiante', 'docente', 'externo'], default: 'estudiante' },
@@ -29,7 +29,7 @@ export const Usuario = model('Usuario', new Schema({
   fechaRegistro: { type: Date, default: Date.now },
 }));
 
-export const Prestamo = model('Prestamo', new Schema({
+export const Prestamo = models.Prestamo || model('Prestamo', new Schema({
   libro: { type: Schema.Types.ObjectId, ref: 'Libro', required: true },
   usuario: { type: Schema.Types.ObjectId, ref: 'Usuario', required: true },
   fechaPrestamo: { type: Date, default: Date.now },
@@ -39,7 +39,7 @@ export const Prestamo = model('Prestamo', new Schema({
   multa: { type: Number, default: 0 },
 }));
 
-export const Resena = model('Resena', new Schema({
+export const Resena = models.Resena || model('Resena', new Schema({
   libro: { type: Schema.Types.ObjectId, ref: 'Libro', required: true },
   usuario: { type: Schema.Types.ObjectId, ref: 'Usuario', required: true },
   calificacion: { type: Number, min: 1, max: 5 },

@@ -1,5 +1,8 @@
 // Cliente GraphQL compartido por todas las pantallas (fetch -> POST /graphql)
-export const API = location.port === '4000' ? '/graphql' : 'http://localhost:4000/graphql';
+export const API =
+  location.protocol === 'file:' || (location.hostname === '127.0.0.1' && location.port === '5500')
+    ? 'http://localhost:4000/graphql'
+    : '/graphql';
 
 export const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
